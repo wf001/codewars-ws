@@ -1,4 +1,6 @@
-const d = (s: any) => console.log(s);
+const d = (...s: any) => {
+	console.log(...s);
+}
 //https://www.codewars.com/kata/585d7d5adb20cf33cb000235/train/typescript
 export function findUniq(arr: number[]): any {
 	const m = new Map<number, number>()
@@ -173,4 +175,107 @@ export function binaryToString(binary: string) {
 	}
 	return String.fromCharCode(...arr)
 }
-d(binaryToString("00110001001100000011000100110001"))
+//d(binaryToString("00110001001100000011000100110001"))
+
+
+export function* fibonacciSequence(): Iterator<number> {
+	let i1 = 1, i2 = 1;
+	yield i1;
+	yield i2;
+
+	let i = 0;
+	while (true) {
+		let res = i1 + i2;
+		yield res;
+		i1 = i2;
+		i2 = res;
+	}
+}
+
+//const stream = fibonacciSequence();
+//const actual = Array(10).fill(0).map(() => stream.next().value);
+//console.log(actual);
+
+
+export function rgb(r: number, g: number, b: number): string {
+	const conv = (i: number) => {
+		let _i = Math.min(
+			255,
+			Math.max(i, 0)
+		);
+		return _i.toString(16).toUpperCase().padStart(2, "0");
+	}
+	return conv(r) + conv(g) + conv(b);
+}
+
+//d(rgb(255, 15, 88));
+
+
+//https://www.codewars.com/kata/5547cc7dcad755e480000004
+//TLE
+export function removeNb(n: number): number[][] {
+	const sum = (n * (1 + n)) / 2;
+	let ans = [];
+	for (let i = 1; i <= n; i++) {
+		for (let j = 1; j <= n; j++) {
+			d(i, j, sum, i * j, sum - i - j);
+			if (i * j === (sum - i - j)) {
+				ans.push([i, j]);
+			}
+		}
+	}
+
+	return ans;
+}
+
+//d(removeNb(101));
+const makePrimeLst = (k: number) => {
+	let p = new Array(k + 1).fill(true);
+	p[0] = false;
+	p[1] = false;
+	for (let i = 2; i <= k + 1; i++) {
+		if (p[i]) {
+			for (let j = i * 2; j <= k + 1; j += i) {
+				p[j] = false;
+			}
+		}
+	}
+	let ans: number[] = [];
+	p.forEach((x, i) => {
+		if (x) ans.push(i);
+	})
+	return ans;
+}
+const getDivExp = (k: number) => {
+	if (k == 1) {
+		return [1, 1];
+	}
+	const sqrt = Math.floor(Math.sqrt(k));
+	const pl = makePrimeLst(sqrt);
+	let ans: number[][] = [];
+
+	pl.forEach((pi) => {
+		let c = 0;
+		while (k % pi == 0) {
+			k = Math.floor(k / pi);
+			++c;
+		}
+		if (c !== 0) ans.push([pi, c]);
+	})
+	if (k !== 1) ans.push([k, 1]);
+	return ans;
+}
+export function decomp(n: number): Map<number, number> {
+	const m = new Map<number, number>();
+	for (let i = 1; i < n + 1; i++) {
+		let divAndExp:number = getDivExp(i);
+		divAndExp.map((x) => {
+			let v = m.get(x[1]);
+			m.set(x[0], (v ? v + x[1] : x[1]));
+		});
+	}
+
+	return m;
+}
+
+d(decomp(10));
