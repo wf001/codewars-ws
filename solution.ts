@@ -117,16 +117,16 @@ export function mazeRunner(maze: number[][], directions: string[]): string {
 	return "Lost"
 }
 
-let maze = [[1, 1, 1, 1, 1, 1, 1],
-[1, 0, 0, 0, 0, 0, 3],
-[1, 0, 1, 0, 1, 0, 1],
-[0, 0, 1, 0, 0, 0, 1],
-[1, 0, 1, 0, 1, 0, 1],
-[1, 0, 0, 0, 0, 0, 1],
-[1, 2, 1, 0, 1, 0, 1]];
+//let maze = [[1, 1, 1, 1, 1, 1, 1],
+//[1, 0, 0, 0, 0, 0, 3],
+//[1, 0, 1, 0, 1, 0, 1],
+//[0, 0, 1, 0, 0, 0, 1],
+//[1, 0, 1, 0, 1, 0, 1],
+//[1, 0, 0, 0, 0, 0, 1],
+//[1, 2, 1, 0, 1, 0, 1]];
 
 
-const o = null
+//const o = null
 
 //console.log(mazeRunner(maze, ["N", "N", "N", "N", "N", "E", "E", "S", "S", "S", "S", "S", "S"]))
 
@@ -183,7 +183,7 @@ export function* fibonacciSequence(): Iterator<number> {
 	yield i1;
 	yield i2;
 
-	let i = 0;
+	//let i = 0;
 	while (true) {
 		let res = i1 + i2;
 		yield res;
@@ -265,17 +265,59 @@ const getDivExp = (k: number) => {
 	if (k !== 1) ans.push([k, 1]);
 	return ans;
 }
-export function decomp(n: number): Map<number, number> {
+export function decomp(n: number): string {
 	const m = new Map<number, number>();
-	for (let i = 1; i < n + 1; i++) {
-		let divAndExp:number = getDivExp(i);
-		divAndExp.map((x) => {
-			let v = m.get(x[1]);
+	for (let i = 2; i < n + 1; i++) {
+		let divAndExp: any = getDivExp(i);
+		d(i, divAndExp);
+		divAndExp.forEach((x: any) => {
+			let v = m.get(x[0]);
 			m.set(x[0], (v ? v + x[1] : x[1]));
 		});
 	}
+	let ans = [];
+	for (const [k, v] of m) {
+		if (v === 1) ans.push(`${k}`);
+		else ans.push(`${k} ^ ${v}`);
+	}
 
-	return m;
+	return ans.join(" + ");
 }
 
-d(decomp(10));
+//d(decomp(10));
+
+export function humanReadable(sec: number): string {
+	let h = `${Math.floor(sec / 3600)}`;
+	sec %= 3600;
+	let m = `${Math.floor(sec / 60)}`;
+	sec %= 60;
+	return `${h.padStart(2, "0")}:${m.padStart(2, "0")}:${sec.toString().padStart(2, "0")}`
+}
+
+//d(humanReadable(86399))
+
+//https://www.codewars.com/kata/57a049e253ba33ac5e000212
+export function factorial(n: number) {
+	return new Array(n).fill(0).map((_, i) => i + 1).reduce((acc, cur) => acc * cur, 1)
+}
+//d(factorial(7))
+export function evaluate(equation: string) {
+	const form = equation.split(" @ ").map(v => parseInt(v))
+  if(form.includes(0)) return null
+	let ans = 0
+	let l = form[0]
+
+	for (let i = 0; i < form.length - 1; i++) {
+		let r = form[i + 1]
+		ans = ((l + r) + (l - r) + (l * r) + Math.floor(l / r))
+		l = ans;
+	}
+	return ans;
+}
+d(evaluate("1 @ 1"))
+d(evaluate("3 @ 2"))
+d(evaluate("6 @ 9"))
+d(evaluate("4 @ -4"))
+d(evaluate("1 @ 1 @ -4"))
+d(evaluate("2 @ 2 @ 2"))
+d(evaluate("0 @ 1 @ 2"))
