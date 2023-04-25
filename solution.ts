@@ -300,24 +300,46 @@ export function humanReadable(sec: number): string {
 export function factorial(n: number) {
 	return new Array(n).fill(0).map((_, i) => i + 1).reduce((acc, cur) => acc * cur, 1)
 }
-//d(factorial(7))
-export function evaluate(equation: string) {
-	const form = equation.split(" @ ").map(v => parseInt(v))
-  if(form.includes(0)) return null
-	let ans = 0
-	let l = form[0]
 
-	for (let i = 0; i < form.length - 1; i++) {
-		let r = form[i + 1]
-		ans = ((l + r) + (l - r) + (l * r) + Math.floor(l / r))
-		l = ans;
+
+//https://www.codewars.com/kata/5541f58a944b85ce6d00006a/
+export const productFib = (prod: number): [number, number, boolean] => {
+	let x1 = 1;
+	let x2 = 1;
+	while (prod > x1 * x2) {
+		let res = x1 + x2;
+		[x1, x2] = [x2, res];
 	}
-	return ans;
+	return [x1, x2, (x1 * x2 === prod)]
 }
-d(evaluate("1 @ 1"))
-d(evaluate("3 @ 2"))
-d(evaluate("6 @ 9"))
-d(evaluate("4 @ -4"))
-d(evaluate("1 @ 1 @ -4"))
-d(evaluate("2 @ 2 @ 2"))
-d(evaluate("0 @ 1 @ 2"))
+
+//d(productFib(800));
+
+export const gap = (g: number, m: number, n: number): number[] | null => {
+	const makePrimeLst = (k: number) => {
+		let p = new Array(k + 1).fill(true);
+		p[0] = false;
+		p[1] = false;
+		for (let i = 2; i <= k + 1; i++) {
+			if (p[i]) {
+				for (let j = i * 2; j <= k + 1; j += i) {
+					p[j] = false;
+				}
+			}
+		}
+		let ans: number[] = [];
+		p.forEach((x, i) => {
+			if (x) ans.push(i);
+		})
+		return ans;
+	}
+	const p = makePrimeLst(n)
+	const l = p.length
+	for (let i = 1; i < l; i++) {
+		if (p[i - 1] >= m && p[i] - p[i - 1] == g) {
+			return [p[i - 1], p[i]]
+		}
+	}
+	return null
+}
+//d(gap(2,100,110))
