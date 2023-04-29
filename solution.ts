@@ -343,3 +343,78 @@ export const gap = (g: number, m: number, n: number): number[] | null => {
 	return null
 }
 //d(gap(2,100,110))
+
+
+export const getPages = (length: number, currentPage: number, size: number): number[] => {
+	let ans = [1]
+	if (length == 1) return []
+	if (length <= 2 * size + 3) return new Array(length).fill(0).map((_, i) => i + 1)
+
+	if (currentPage - size < 2) {
+		for (let i = 2; i <= 2 * size + 2; i++) {
+			ans.push(i);
+		}
+	}
+	else if (currentPage - size > length - 1) {
+		for (let i = length - 2 * size - 1; i < length; i++) {
+			ans.push(i);
+		}
+	}
+	else {
+		for (let i = currentPage - size; i <= currentPage + size; i++) {
+			ans.push(i)
+		}
+	}
+	ans.push(length)
+	return ans
+};
+
+
+//d(getPages(20, 9, 3))
+//d(getPages(21, 14, 2))
+//d(getPages(25, 21, 3))
+//d(getPages(13, 10, 3))
+
+
+export function multiplicationTable(size: number): number[][] {
+	return Array(size)
+		.fill(Array(size)
+			.fill(-1)
+			.map((_, i) => i + 1))
+		.map((x, j) => x.map((xx: number) => xx * (j + 1)))
+}
+
+//d(multiplicationTable(2))
+//d(multiplicationTable(3))
+export function computeDepth(n: number): number {
+	let mul = 0;
+	let dig = new Array(10).fill(0);
+	while (dig.includes(0)) {
+		++mul;
+		const t = [...(n * mul).toString()];
+		t.forEach((x: string) => {
+			++dig[parseInt(x)];
+		});
+		d(dig);
+	}
+	return mul;
+}
+
+//(d(computeDepth(1)));
+
+
+export const likes = (a: string[]): string => {
+	switch (a.length) {
+		case 0:
+			return "no one likes this";
+		case 1:
+			return `${a[0]} liles this`;
+		case 2:
+			return `${a[0]} and ${a[1]} likes this`;
+		case 3:
+			return `${a[0]}, ${a[1]} and ${a[2]} likes this`;
+		default:
+			return `${a[0]}, and ${a.length} people like this`;
+	}
+
+}
