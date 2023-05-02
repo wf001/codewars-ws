@@ -418,3 +418,83 @@ export const likes = (a: string[]): string => {
 	}
 
 }
+
+
+export const doors = (n: number): number => {
+	let c = new Array(n + 1).fill(0);
+	for (let i = 1; i <= n; i++) {
+		++c[i];
+		for (let j = 2 * i; j <= n; j += i) {
+			++c[j];
+		}
+	}
+	return c.filter((x) => x % 2 == 1).length;
+}
+
+//d(doors(100));
+
+
+export function isValidWalk(walk: string[]) {
+	let m = new Map<string, number>;
+	if (walk.length !== 10) {
+		return false;
+	}
+	walk.forEach((w: string) => {
+		let v = m.get(w)
+		m.set(w, (v ? v + 1 : 1))
+	})
+	return m.get("n") === m.get("s") && m.get("w") === m.get("e");
+}
+//d(isValidWalk(['n', 's', 'n', 's', 'n', 's', 'n', 's', 'n', 's']));
+//d(isValidWalk(['w','e','w','e','w','e','w','e','w','e','w','e']));
+
+export function order(words: string): string {
+	const s = words.split(" ")
+	d(s)
+	let ans = new Array(s.length).fill("")
+	const regex: RegExp = /\d+/;
+	s.forEach((w: string) => {
+		ans[parseInt(w.match(regex)?.[0] ?? "", 10) - 1] = w;
+	})
+	d(ans)
+	return ans.join(" ")
+}
+
+//d(order("is2 Thi1s T4est 3a"));
+
+export function triangle(row: string): string {
+	let prev = [...row].map((c) => c.charCodeAt(0) - 96)
+	let cur: number[] = []
+	while (prev.length > 1) {
+		d(prev, cur)
+		const sl = prev.length
+		for (let i = 0; i < sl - 1; i++) {
+			cur.push((prev[i] + prev[i + 1]) % 26)
+		}
+		[prev, cur] = [cur, []]
+	}
+	return String.fromCharCode((prev[0] % 26 ? prev[0] + 26 : prev[0]) + 96)
+}
+//d(triangle("codewars"))
+
+
+const cmb = (n: number, r: number) => {
+	if (r * 2 > n) r = n - r
+	let devided = 1
+	let devisor = 1
+	for (let i = 1; i <= r; i++) {
+		devided *= (n - i + 1)
+		devisor *= i
+	}
+	return devided / devisor
+}
+
+export function estSubsets<T>(list: T[]): number {
+	const l = (new Set(list)).size
+	let ans = 0
+	return Math.ceil((new Array(l)).fill(0)
+		.map((_, i) => i + 1)
+		.reduce((acc, cur) => acc + cmb(l, cur), 0))
+
+}
+//d(estSubsets([1,2,3,4]))
