@@ -498,3 +498,63 @@ export function estSubsets<T>(list: T[]): number {
 
 }
 //d(estSubsets([1,2,3,4]))
+
+
+// Cant solve 
+// https://www.codewars.com/kata/55a29405bc7d2efaff00007c/train/typescript
+export function going(n: number): number {
+	let accm = [1]
+
+	Array(n - 1).fill(0)
+		.map((_, i) => i + 2)
+		.forEach((c) => {
+			accm.push(c * accm[c - 2])
+		});
+
+	const res = (accm.slice(0, n).reduce((acc, cur) => acc + cur)) / accm[n - 1]
+	d(accm)
+	d(res)
+	return parseFloat(res.toString().substring(0, 8))
+
+}
+//d(going(200))
+
+const comp = (a: number[], b: number[]): number => {
+	if (a[0] < b[0]) {
+		return -1;
+	} else if (a[0] > b[0]) {
+		return 1;
+	} else {
+		if (a[1] < b[1]) {
+			return -1;
+		} else if (a[1] > b[1]) {
+			return 1;
+		} else {
+			return 0;
+		}
+	};
+}
+export function sumOfIntervals(pos: [number, number][]) {
+	pos.sort((a, b) => comp(a, b))
+	const sz = pos.length
+	const mn = pos[0][0]
+	const mx = pos.reduce((mx, cur) => (mx < cur[1]) ? cur[1] : mx, mn - 1)
+	let total = mx - mn
+	let m = mn - 1
+	d(pos)
+
+	for (let i = 1; i < sz; i++) {
+		m = Math.max(pos[i - 1][1], m)
+		let rg = pos[i][0] - m
+		if (rg > 0) {
+			total -= rg
+			d(total, rg)
+		}
+	}
+
+	return total
+}
+// 940
+//d(sumOfIntervals([[-138, 379], [-20, 257], [-262, 435], [-340, 321], [-389, 410], [-46, -35], [-47, 425], [-471, -101], [-485, -425], [-55, 249], [152, 312], [338, 443], [4, 313], [426, 455], [89, 243]]))
+//d(sumOfIntervals([[0, 20], [-1e8, 10], [30, 40]]))
+
