@@ -558,3 +558,10 @@ export function sumOfIntervals(pos: [number, number][]) {
 //d(sumOfIntervals([[-138, 379], [-20, 257], [-262, 435], [-340, 321], [-389, 410], [-46, -35], [-47, 425], [-471, -101], [-485, -425], [-55, 249], [152, 312], [338, 443], [4, 313], [426, 455], [89, 243]]))
 //d(sumOfIntervals([[0, 20], [-1e8, 10], [30, 40]]))
 
+export function narcissistic(value: number): boolean {
+	const d = Math.floor(Math.log10(value)) + 1
+	return (value === [...String(value)].reduce((acc, cur) => acc + Math.pow(parseInt(cur), d), 0))
+}
+
+d(narcissistic(7))
+d(narcissistic(153))
