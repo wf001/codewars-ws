@@ -59,3 +59,44 @@ const getDivExp = (k: number) => {
 	* getDivExp(18)
 * => [[2,1], [3,2]]
 */
+
+
+const chatToInt = (s: string) => s.charCodeAt(0) - 65
+/*
+	* charToInt("A")
+* => 0
+*/
+
+const factorial = (n: number) => {
+	Array(n)
+		.fill(0)
+		.map((_, i) => i + 1)
+		.reduce((acc, cur) => acc + cur, 1)
+}
+/*
+	* factorial(4)
+* => 24
+*/
+
+
+const comp = (a: number[], b: number[]): number => {
+	if (a[0] < b[0]) {
+		return -1
+	} else if (a[0] > b[0]) {
+		return 1
+	} else {
+		if (a[1] < b[1]) {
+			return -1
+		} else if (a[1] > b[1]) {
+			return 1
+		} else {
+			return 0
+		}
+	}
+}
+/*
+	* let arr = [[1,3], [1,1], [2,3]]
+	* arr.sort((a,b)=>comp(a,b))
+	* => [[1,1], [1,3], [2,3]]
+	* 
+	*/
