@@ -695,4 +695,49 @@ export const primeFactors = (n: number): string => {
   return ss
 }
 
-d(primeFactors(86240))
+//d(primeFactors(86240))
+
+export const listSquared = (m: number, n: number): number[][] => {
+  const rt = Math.ceil(Math.sqrt(n))
+  let ans = [1, n]
+  for (let i = 2; i < rt; i++) {
+    if (n % i !== 0) continue
+    ans.push(i)
+    while (n % i == 0) {
+      n /= i
+    }
+    ans.push(n)
+  }
+  if (Number.isInteger(rt)) ans.push(rt)
+  if (n != 1) ans.push(n)
+  d(ans)
+  return []
+}
+
+//listSquared(1, 246)
+
+export function sumFracts(l: number[][]): string | null {
+  console.log(l)
+  if (l.length === 0) return null
+  let s = l.reduce((acc, cur) => acc * cur[1], 1)
+  let divided = l
+    .map((x) => (s / x[1]) * x[0])
+    .reduce((acc, cur) => acc + cur, 0)
+  const rt = Math.sqrt(Math.min(s, divided))
+
+  for (let i = 2; i < rt + 1; i++) {
+    if (s % i !== 0 || divided % i != 0) continue
+    while (s % i == 0 && divided % i == 0) {
+      s /= i
+      divided /= i
+    }
+  }
+
+  return s === 1 ? `${divided}` : `[${divided}, ${s}]`
+}
+d(
+  sumFracts([
+    [52, 26],
+    [49, 2],
+  ])
+)
