@@ -2,7 +2,7 @@ const d = (...s: any) => {
     console.log(...s)
 }
 //https://www.codewars.com/kata/585d7d5adb20cf33cb000235/train/typescript
-export function findUniq(arr: number[]): any {
+export function findUniq1(arr: number[]): any {
     const m = new Map<number, number>()
 
     arr.forEach((ai: number) => {
@@ -834,4 +834,23 @@ export function findTheNotFittingElement(series: any[]): any {
         if (m.get(i) === 1) return i
     }
 }
-d(findTheNotFittingElement(["1", 2, "4", "6", "8"]))
+//d(findTheNotFittingElement(["1", 2, "4", "6", "8"]))
+
+export function beeramid(bonus: number, price: number): number {
+    let i = 0
+    while (bonus >= 0) {
+        bonus -= (i + 1) ** 2 * price
+        i++
+        d(bonus)
+    }
+    return Math.max(i - 1, 0)
+}
+//d(beeramid(455, 5))
+
+export function toRange(arr: number[]): string {
+  return ''
+}
+
+export function toArray(str: string): number[] {
+  return []
+}
